@@ -1,4 +1,4 @@
-export function mapSupabaseAuthError(error: any): string {
+export function mapSupabaseAuthError(error: { message?: string } | null): string {
 	if (!error) return 'Une erreur inconnue est survenue.';
 
 	const msg = error.message || '';
