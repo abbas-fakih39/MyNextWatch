@@ -19,14 +19,24 @@
 
 <div class="bg-gray-900 pb-12">
 	{#if data.trending?.length}
-		<MediaGrid title="📈 Tendances du jour" items={data.trending} />
+		<MediaGrid title="📈 Tendances du jour" items={data.trending} carousel={true} />
 	{/if}
 
 	{#if data.popularMovies?.length}
-		<MediaGrid title="🎬 Films Populaires" items={data.popularMovies} viewAllHref="/movies" />
+		<MediaGrid
+			title="🎬 Films Populaires"
+			items={data.popularMovies}
+			viewAllHref="/movies"
+			carousel={true}
+		/>
 	{/if}
 
 	{#if data.popularTV?.length}
-		<MediaGrid title="📺 Séries Populaires" items={data.popularTV} viewAllHref="/tv" />
+		<MediaGrid
+			title="📺 Séries Populaires"
+			items={data.popularTV}
+			viewAllHref="/tv"
+			carousel={true}
+		/>
 	{/if}
 </div>

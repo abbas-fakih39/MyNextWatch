@@ -7,9 +7,7 @@ export function getTitle(item: AnyMedia): string {
 }
 
 export function getReleaseDate(item: AnyMedia): string | null {
-	return item.media_type === 'movie'
-		? (item.release_date ?? null)
-		: (item.first_air_date ?? null);
+	return item.media_type === 'movie' ? (item.release_date ?? null) : (item.first_air_date ?? null);
 }
 
 export function getYear(item: AnyMedia): number | null {

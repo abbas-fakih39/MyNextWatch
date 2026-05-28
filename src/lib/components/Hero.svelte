@@ -12,7 +12,7 @@
 	let exploreHref = $derived(item.media_type === 'movie' ? '/movies' : '/tv');
 </script>
 
-<div class="relative min-h-[70vh] flex items-end overflow-hidden bg-bg">
+<div class="relative flex min-h-[70vh] items-end overflow-hidden bg-bg">
 	{#if backdropUrl}
 		<img
 			src={backdropUrl}
@@ -24,34 +24,34 @@
 	<div class="absolute inset-0 bg-linear-to-t from-bg via-bg/60 to-transparent"></div>
 	<div class="absolute inset-0 bg-linear-to-r from-bg/80 via-bg/30 to-transparent"></div>
 
-	<div class="relative z-10 max-w-400 mx-auto px-6 sm:px-10 pb-16 pt-32 w-full">
+	<div class="relative z-10 mx-auto w-full max-w-400 px-6 pt-32 pb-16 sm:px-10">
 		<div class="max-w-2xl">
 			<span
-				class="inline-block bg-indigo-600/20 border border-indigo-500/40 text-indigo-300 text-xs font-semibold px-3 py-1 rounded uppercase tracking-wider mb-4"
+				class="mb-4 inline-block rounded border border-indigo-500/40 bg-indigo-600/20 px-3 py-1 text-xs font-semibold tracking-wider text-indigo-300 uppercase"
 			>
 				🔥 Tendance du jour
 			</span>
 
 			<h1
-				class="font-display text-5xl sm:text-6xl md:text-7xl text-text leading-tight tracking-tight drop-shadow-lg mb-3"
+				class="mb-3 font-display text-5xl leading-tight tracking-tight text-text drop-shadow-lg sm:text-6xl md:text-7xl"
 			>
 				{title}
 			</h1>
 
 			{#if year}
-				<p class="text-muted text-sm mb-3">{year}</p>
+				<p class="mb-3 text-sm text-muted">{year}</p>
 			{/if}
 
 			{#if overview}
-				<p class="text-text/80 text-base sm:text-lg leading-relaxed mb-8 max-w-xl">
+				<p class="mb-8 max-w-xl text-base leading-relaxed text-text/80 sm:text-lg">
 					{overview}
 				</p>
 			{/if}
 
-			<div class="flex gap-3 flex-wrap">
+			<div class="flex flex-wrap gap-3">
 				<a
 					{href}
-					class="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-6 py-3 rounded-md transition-all shadow-lg hover:scale-105"
+					class="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-6 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 hover:bg-indigo-500"
 				>
 					<svg
 						class="h-5 w-5"
@@ -71,7 +71,7 @@
 
 				<a
 					href={exploreHref}
-					class="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-md border border-white/20 transition-all hover:scale-105"
+					class="inline-flex items-center gap-2 rounded-md border border-white/20 bg-white/10 px-6 py-3 font-semibold text-white backdrop-blur-sm transition-all hover:scale-105 hover:bg-white/20"
 				>
 					Explorer plus
 				</a>

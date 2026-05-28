@@ -12,7 +12,10 @@ import type {
 const BASE_URL = 'https://api.themoviedb.org/3';
 const DEFAULT_LANG = 'fr-FR';
 
-async function fetchFromTMDB<T>(endpoint: string, params: Record<string, string> = {}): Promise<T | null> {
+async function fetchFromTMDB<T>(
+	endpoint: string,
+	params: Record<string, string> = {}
+): Promise<T | null> {
 	const url = new URL(`${BASE_URL}${endpoint}`);
 	url.searchParams.append('api_key', TMDB_API_KEY);
 	url.searchParams.append('language', DEFAULT_LANG);

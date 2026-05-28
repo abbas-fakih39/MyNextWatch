@@ -5,87 +5,90 @@
 
 	let isMobileMenuOpen = $state(false);
 	let searchQuery = $state('');
-	let debounceTimer: ReturnType<typeof setTimeout>;
 
 	function toggleMenu() {
 		isMobileMenuOpen = !isMobileMenuOpen;
 	}
 
-	function handleSearchInput(e: Event) {
-		const value = (e.target as HTMLInputElement).value;
-		searchQuery = value;
-		clearTimeout(debounceTimer);
-		if (value.trim().length >= 2) {
-			debounceTimer = setTimeout(() => {
-				goto(`/search?q=${encodeURIComponent(value.trim())}`);
-			}, 300);
-		}
-	}
-
 	function handleSearchSubmit(e: Event) {
 		e.preventDefault();
-		clearTimeout(debounceTimer);
 		if (searchQuery.trim().length >= 1) {
 			goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
 		}
 	}
 </script>
 
-<nav class="bg-bg/90 backdrop-blur-md sticky top-0 z-50 border-b border-border">
-	<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-		<div class="flex items-center justify-between h-16 gap-4">
+<nav class="sticky top-0 z-50 border-b border-border bg-bg/90 backdrop-blur-md">
+	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+		<div class="flex h-16 items-center justify-between gap-4">
 			<!-- Logo -->
-			<a href="/" class="flex items-center gap-2 group shrink-0">
-				<Clapperboard class="h-7 w-7 text-indigo-500 group-hover:text-indigo-400 transition-colors" />
-				<span class="text-lg font-bold text-text tracking-tight hidden sm:block">MyNextWatch</span>
+			<a href="/" class="group flex shrink-0 items-center gap-2">
+				<Clapperboard
+					class="h-7 w-7 text-indigo-500 transition-colors group-hover:text-indigo-400"
+				/>
+				<span class="hidden text-lg font-bold tracking-tight text-text sm:block">MyNextWatch</span>
 			</a>
 
 			<!-- Desktop Navigation -->
 			<div class="hidden md:flex md:items-center md:gap-6">
-				<a href="/movies" class="text-muted hover:text-text transition-colors text-sm font-medium flex items-center gap-1.5">
+				<a
+					href="/movies"
+					class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-text"
+				>
 					<Film class="h-4 w-4" /> Films
 				</a>
-				<a href="/tv" class="text-muted hover:text-text transition-colors text-sm font-medium flex items-center gap-1.5">
+				<a
+					href="/tv"
+					class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-text"
+				>
 					<Tv class="h-4 w-4" /> Séries
 				</a>
 				{#if auth.session}
-					<a href="/watchlist" class="text-muted hover:text-text transition-colors text-sm font-medium flex items-center gap-1.5">
+					<a
+						href="/watchlist"
+						class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-text"
+					>
 						<List class="h-4 w-4" /> Ma Watchlist
 					</a>
 				{/if}
 			</div>
 
 			<!-- Search bar desktop -->
-			<form onsubmit={handleSearchSubmit} class="hidden md:flex items-center flex-1 max-w-xs">
+			<form onsubmit={handleSearchSubmit} class="hidden max-w-xs flex-1 items-center md:flex">
 				<div class="relative w-full">
-					<Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted pointer-events-none" />
+					<Search
+						class="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted"
+					/>
 					<input
 						name="q"
 						type="search"
 						placeholder="Rechercher..."
-						value={searchQuery}
-						oninput={handleSearchInput}
-						class="w-full bg-surface border border-border text-text placeholder-muted rounded-md pl-9 pr-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+						bind:value={searchQuery}
+						class="w-full rounded-md border border-border bg-surface py-1.5 pr-3 pl-9 text-sm text-text placeholder-muted transition-all focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
 					/>
 				</div>
 			</form>
 
 			<!-- Desktop Auth + Mobile controls -->
-			<div class="flex items-center gap-3 shrink-0">
+			<div class="flex shrink-0 items-center gap-3">
 				<!-- Mobile search icon -->
-				<a href="/search" class="md:hidden text-muted hover:text-text transition-colors">
+				<a href="/search" class="text-muted transition-colors hover:text-text md:hidden">
 					<Search class="h-5 w-5" />
 				</a>
 
 				{#if auth.session}
-					<a href="/profile" class="hidden md:flex items-center gap-2 text-muted hover:text-text transition-colors">
+					<a
+						href="/profile"
+						class="hidden items-center gap-2 text-muted transition-colors hover:text-text md:flex"
+					>
 						<User class="h-5 w-5" />
-						<span class="text-sm font-medium">{auth.user?.user_metadata?.username ?? 'Profil'}</span>
+						<span class="text-sm font-medium">{auth.user?.user_metadata?.username ?? 'Profil'}</span
+						>
 					</a>
 					<form action="/auth/logout" method="POST" class="hidden md:block">
 						<button
 							type="submit"
-							class="flex items-center gap-1.5 text-red-400 hover:text-red-300 px-3 py-1.5 rounded-md border border-red-500/20 hover:bg-red-500/10 transition-colors text-sm font-medium"
+							class="flex items-center gap-1.5 rounded-md border border-red-500/20 px-3 py-1.5 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/10 hover:text-red-300"
 						>
 							<LogOut class="h-4 w-4" />
 							Déconnexion
@@ -94,7 +97,7 @@
 				{:else}
 					<a
 						href="/auth"
-						class="hidden md:block bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-1.5 rounded-md text-sm font-medium transition-colors"
+						class="hidden rounded-md bg-indigo-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-indigo-500 md:block"
 					>
 						Se connecter
 					</a>
@@ -105,7 +108,7 @@
 					onclick={toggleMenu}
 					aria-label={isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
 					aria-expanded={isMobileMenuOpen}
-					class="md:hidden text-muted hover:text-text focus:outline-none"
+					class="text-muted hover:text-text focus:outline-none md:hidden"
 				>
 					{#if isMobileMenuOpen}
 						<X class="h-6 w-6" />
@@ -119,61 +122,87 @@
 
 	<!-- Mobile Navigation -->
 	{#if isMobileMenuOpen}
-		<div class="md:hidden bg-surface border-b border-border">
+		<div class="border-b border-border bg-surface md:hidden">
 			<!-- Mobile search -->
 			<div class="px-4 pt-3 pb-2">
 				<form onsubmit={handleSearchSubmit}>
 					<div class="relative">
-						<Search class="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted pointer-events-none" />
+						<Search
+							class="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted"
+						/>
 						<input
 							name="q"
 							type="search"
 							placeholder="Rechercher un film ou une série..."
-							value={searchQuery}
-							oninput={handleSearchInput}
-							class="w-full bg-bg border border-border text-text placeholder-muted rounded-md pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500"
+							bind:value={searchQuery}
+							class="w-full rounded-md border border-border bg-bg py-2 pr-3 pl-9 text-sm text-text placeholder-muted focus:ring-1 focus:ring-indigo-500 focus:outline-none"
 						/>
 					</div>
 				</form>
 			</div>
 
-			<div class="px-2 pb-3 space-y-1">
-				<a href="/movies" class="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-muted hover:text-text hover:bg-border" onclick={toggleMenu}>
+			<div class="space-y-1 px-2 pb-3">
+				<a
+					href="/movies"
+					class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted hover:bg-border hover:text-text"
+					onclick={toggleMenu}
+				>
 					<Film class="h-4 w-4" /> Films
 				</a>
-				<a href="/tv" class="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-muted hover:text-text hover:bg-border" onclick={toggleMenu}>
+				<a
+					href="/tv"
+					class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted hover:bg-border hover:text-text"
+					onclick={toggleMenu}
+				>
 					<Tv class="h-4 w-4" /> Séries
 				</a>
 				{#if auth.session}
-					<a href="/watchlist" class="flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-muted hover:text-text hover:bg-border" onclick={toggleMenu}>
+					<a
+						href="/watchlist"
+						class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted hover:bg-border hover:text-text"
+						onclick={toggleMenu}
+					>
 						<List class="h-4 w-4" /> Ma Watchlist
 					</a>
 				{/if}
 			</div>
 
-			<div class="px-4 py-3 border-t border-border">
+			<div class="border-t border-border px-4 py-3">
 				{#if auth.session}
-					<div class="flex items-center gap-3 mb-3">
-						<div class="bg-border p-2 rounded-full shrink-0">
+					<div class="mb-3 flex items-center gap-3">
+						<div class="shrink-0 rounded-full bg-border p-2">
 							<User class="h-5 w-5 text-muted" />
 						</div>
 						<div>
-							<div class="text-sm font-medium text-text">{auth.user?.user_metadata?.username ?? 'Utilisateur'}</div>
+							<div class="text-sm font-medium text-text">
+								{auth.user?.user_metadata?.username ?? 'Utilisateur'}
+							</div>
 							<div class="text-xs text-muted">{auth.user?.email}</div>
 						</div>
 					</div>
 					<div class="flex gap-2">
-						<a href="/profile" class="flex-1 text-center px-3 py-2 rounded-md text-sm font-medium text-muted hover:text-text hover:bg-border transition-colors" onclick={toggleMenu}>
+						<a
+							href="/profile"
+							class="flex-1 rounded-md px-3 py-2 text-center text-sm font-medium text-muted transition-colors hover:bg-border hover:text-text"
+							onclick={toggleMenu}
+						>
 							Mon Profil
 						</a>
 						<form action="/auth/logout" method="POST" class="flex-1">
-							<button type="submit" class="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium text-red-400 hover:bg-red-500/10 border border-red-500/20 transition-colors">
+							<button
+								type="submit"
+								class="flex w-full items-center justify-center gap-1.5 rounded-md border border-red-500/20 px-3 py-2 text-sm font-medium text-red-400 transition-colors hover:bg-red-500/10"
+							>
 								<LogOut class="h-4 w-4" /> Déconnexion
 							</button>
 						</form>
 					</div>
 				{:else}
-					<a href="/auth" class="block text-center w-full bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors" onclick={toggleMenu}>
+					<a
+						href="/auth"
+						class="block w-full rounded-md bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+						onclick={toggleMenu}
+					>
 						Se connecter / S'inscrire
 					</a>
 				{/if}

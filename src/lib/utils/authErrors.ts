@@ -1,6 +1,6 @@
 export function mapSupabaseAuthError(error: any): string {
 	if (!error) return 'Une erreur inconnue est survenue.';
-	
+
 	const msg = error.message || '';
 
 	if (msg.includes('Invalid login credentials')) {
@@ -13,12 +13,12 @@ export function mapSupabaseAuthError(error: any): string {
 		return 'Le mot de passe doit contenir au moins 6 caractères.';
 	}
 	if (msg.includes('invalid email format') || msg.includes('Unable to validate email address')) {
-		return 'Le format de l\'adresse email est invalide.';
+		return "Le format de l'adresse email est invalide.";
 	}
 	if (msg.includes('Email rate limit exceeded')) {
 		return 'Trop de tentatives. Veuillez patienter un moment avant de réessayer.';
 	}
-	
+
 	// Message par défaut si l'erreur n'est pas répertoriée
-	return 'Une erreur est survenue lors de l\'authentification. Veuillez réessayer.';
+	return "Une erreur est survenue lors de l'authentification. Veuillez réessayer.";
 }

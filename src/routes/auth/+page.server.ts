@@ -26,7 +26,7 @@ export const actions: Actions = {
 
 		const { error } = await locals.supabase.auth.signInWithPassword({
 			email,
-			password,
+			password
 		});
 
 		if (error) {
@@ -57,7 +57,7 @@ export const actions: Actions = {
 		}
 
 		if (username.length < 3) {
-			return fail(400, { error: 'Le nom d\'utilisateur doit faire au moins 3 caractères.' });
+			return fail(400, { error: "Le nom d'utilisateur doit faire au moins 3 caractères." });
 		}
 
 		const { error } = await locals.supabase.auth.signUp({
@@ -69,13 +69,16 @@ export const actions: Actions = {
 					username,
 					birth_date
 				}
-			},
+			}
 		});
 
 		if (error) {
 			return fail(400, { error: mapSupabaseAuthError(error) });
 		}
 
-		return { success: 'Inscription réussie ! Vous pouvez maintenant vous connecter (ou vérifier vos emails).' };
+		return {
+			success:
+				'Inscription réussie ! Vous pouvez maintenant vous connecter (ou vérifier vos emails).'
+		};
 	}
 };

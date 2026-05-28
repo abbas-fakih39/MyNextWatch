@@ -32,10 +32,10 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="min-h-screen bg-bg text-text flex flex-col font-body">
+<div class="flex min-h-screen flex-col bg-bg font-body text-text">
 	<Navbar />
 
-	<main class="grow flex flex-col">
+	<main class="flex grow flex-col">
 		{@render children()}
 	</main>
 

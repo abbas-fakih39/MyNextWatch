@@ -10,14 +10,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 				cookiesToSet.forEach(({ name, value, options }) => {
 					event.cookies.set(name, value, { ...options, path: '/' });
 				});
-			},
-		},
+			}
+		}
 	});
 
 	event.locals.safeGetSession = async () => {
 		try {
 			const {
-				data: { session },
+				data: { session }
 			} = await event.locals.supabase.auth.getSession();
 			if (!session) {
 				return { session: null, user: null };
@@ -25,7 +25,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 
 			const {
 				data: { user },
-				error,
+				error
 			} = await event.locals.supabase.auth.getUser();
 			if (error) {
 				return { session: null, user: null };
@@ -42,12 +42,13 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.user = user;
 
 	const isAuthRoute = event.url.pathname.startsWith('/auth');
-	const isProtectedRoute = event.url.pathname.startsWith('/profile') || event.url.pathname.startsWith('/watchlist');
-	
+	const isProtectedRoute =
+		event.url.pathname.startsWith('/profile') || event.url.pathname.startsWith('/watchlist');
+
 	if (isAuthRoute && session) {
 		throw redirect(303, '/');
 	}
-	
+
 	if (isProtectedRoute && !session) {
 		throw redirect(303, '/auth');
 	}
@@ -55,6 +56,6 @@ export const handle: Handle = async ({ event, resolve }) => {
 	return resolve(event, {
 		filterSerializedResponseHeaders(name) {
 			return name === 'content-range' || name === 'x-supabase-api-version';
-		},
+		}
 	});
 };

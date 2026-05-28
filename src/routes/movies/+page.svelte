@@ -23,20 +23,25 @@
 
 <svelte:head>
 	<title>Films Populaires — MyNextWatch</title>
-	<meta name="description" content="Découvrez les films les plus populaires du moment sur MyNextWatch." />
+	<meta
+		name="description"
+		content="Découvrez les films les plus populaires du moment sur MyNextWatch."
+	/>
 </svelte:head>
 
 <div class="min-h-screen bg-bg pb-16">
 	<!-- Header -->
-	<div class="px-4 sm:px-6 lg:px-8 max-w-400 mx-auto pt-10 pb-6">
-		<h1 class="font-display text-5xl sm:text-6xl text-text mb-1">Films</h1>
-		<p class="text-muted text-sm">Les plus populaires du moment</p>
+	<div class="mx-auto max-w-400 px-4 pt-10 pb-6 sm:px-6 lg:px-8">
+		<h1 class="mb-1 font-display text-5xl text-text sm:text-6xl">Films</h1>
+		<p class="text-sm text-muted">Les plus populaires du moment</p>
 	</div>
 
 	<!-- Grid -->
 	{#if allItems.length > 0}
-		<div class="px-4 sm:px-6 lg:px-8 max-w-400 mx-auto">
-			<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 md:gap-4">
+		<div class="mx-auto max-w-400 px-4 sm:px-6 lg:px-8">
+			<div
+				class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 md:gap-4 lg:grid-cols-5 xl:grid-cols-6"
+			>
 				{#each allItems as item (item.id)}
 					<MediaCard {item} />
 				{/each}
@@ -49,7 +54,7 @@
 
 			<!-- Load more -->
 			{#if hasMore && !loading}
-				<div class="flex justify-center mt-10">
+				<div class="mt-10 flex justify-center">
 					<form
 						method="POST"
 						action="?/more"
@@ -64,7 +69,7 @@
 						<input type="hidden" name="page" value={currentPage + 1} />
 						<button
 							type="submit"
-							class="bg-surface border border-border hover:border-indigo-500 text-text hover:text-white px-8 py-3 rounded-md font-medium transition-colors"
+							class="rounded-md border border-border bg-surface px-8 py-3 font-medium text-text transition-colors hover:border-indigo-500 hover:text-white"
 						>
 							Charger plus
 						</button>
@@ -74,11 +79,16 @@
 		</div>
 	{:else}
 		<!-- Empty state -->
-		<div class="flex flex-col items-center justify-center py-24 text-center px-4">
-			<svg class="h-16 w-16 text-border mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+		<div class="flex flex-col items-center justify-center px-4 py-24 text-center">
+			<svg class="mb-4 h-16 w-16 text-border" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="1"
+					d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
+				/>
 			</svg>
-			<p class="text-muted text-lg">Aucun film disponible pour le moment.</p>
+			<p class="text-lg text-muted">Aucun film disponible pour le moment.</p>
 		</div>
 	{/if}
 </div>

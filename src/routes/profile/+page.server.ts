@@ -29,18 +29,16 @@ export const actions: Actions = {
 			});
 		}
 
-		const { error: dbError } = await locals.supabase
-			.from('profiles')
-			.upsert(
-				{
-					id: userId,
-					username,
-					bio,
-					birth_date: birth_date || null,
-					updated_at: new Date().toISOString()
-				},
-				{ onConflict: 'id' }
-			);
+		const { error: dbError } = await locals.supabase.from('profiles').upsert(
+			{
+				id: userId,
+				username,
+				bio,
+				birth_date: birth_date || null,
+				updated_at: new Date().toISOString()
+			},
+			{ onConflict: 'id' }
+		);
 
 		if (dbError) {
 			if (dbError.code === '23505') {

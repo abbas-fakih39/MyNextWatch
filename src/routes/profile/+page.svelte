@@ -42,30 +42,34 @@
 </svelte:head>
 
 {#if $navigating}
-	<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-pulse">
-		<div class="h-10 bg-surface rounded w-40 mb-8"></div>
-		<div class="bg-surface border border-border rounded-xl p-6 mb-4 flex flex-col items-center gap-4">
-			<div class="w-24 h-24 rounded-full bg-border"></div>
-			<div class="h-4 bg-border rounded w-32"></div>
+	<div class="mx-auto max-w-2xl animate-pulse px-4 py-8 sm:px-6 lg:px-8">
+		<div class="mb-8 h-10 w-40 rounded bg-surface"></div>
+		<div
+			class="mb-4 flex flex-col items-center gap-4 rounded-xl border border-border bg-surface p-6"
+		>
+			<div class="h-24 w-24 rounded-full bg-border"></div>
+			<div class="h-4 w-32 rounded bg-border"></div>
 		</div>
-		<div class="bg-surface border border-border rounded-xl p-6 mb-4 space-y-4">
+		<div class="mb-4 space-y-4 rounded-xl border border-border bg-surface p-6">
 			{#each { length: 3 } as _}
-				<div class="h-10 bg-border rounded"></div>
+				<div class="h-10 rounded bg-border"></div>
 			{/each}
-			<div class="h-10 bg-border rounded w-32"></div>
+			<div class="h-10 w-32 rounded bg-border"></div>
 		</div>
-		<div class="bg-surface border border-border rounded-xl p-6 grid grid-cols-3 gap-4">
+		<div class="grid grid-cols-3 gap-4 rounded-xl border border-border bg-surface p-6">
 			{#each { length: 6 } as _}
-				<div class="h-16 bg-border rounded"></div>
+				<div class="h-16 rounded bg-border"></div>
 			{/each}
 		</div>
 	</div>
 {:else}
-	<div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
-		<h1 class="font-display text-4xl sm:text-5xl text-text mb-8">Mon Profil</h1>
+	<div class="mx-auto max-w-2xl px-4 py-8 pb-16 sm:px-6 lg:px-8">
+		<h1 class="mb-8 font-display text-4xl text-text sm:text-5xl">Mon Profil</h1>
 
 		<!-- Avatar card -->
-		<div class="bg-surface border border-border rounded-xl p-6 mb-4 flex flex-col items-center gap-3">
+		<div
+			class="mb-4 flex flex-col items-center gap-3 rounded-xl border border-border bg-surface p-6"
+		>
 			<!-- Hidden upload form -->
 			<form
 				bind:this={avatarForm}
@@ -103,11 +107,11 @@
 			</form>
 
 			<!-- Avatar circle -->
-			<div class="relative group">
+			<div class="group relative">
 				<button
 					type="button"
 					onclick={() => fileInput?.click()}
-					class="block rounded-full focus:outline-none focus:ring-2 focus:ring-accent"
+					class="block rounded-full focus:ring-2 focus:ring-accent focus:outline-none"
 					title="Modifier l'avatar"
 					aria-label="Modifier l'avatar"
 				>
@@ -115,20 +119,20 @@
 						<img
 							src="{data.profile.avatar_url}?t={encodeURIComponent(data.profile.updated_at ?? '')}"
 							alt="Avatar de {username || 'utilisateur'}"
-							class="w-24 h-24 rounded-full object-cover border-2 border-border group-hover:opacity-75 transition-opacity"
+							class="h-24 w-24 rounded-full border-2 border-border object-cover transition-opacity group-hover:opacity-75"
 						/>
 					{:else}
 						<div
-							class="w-24 h-24 rounded-full bg-accent flex items-center justify-center text-bg text-2xl font-bold font-display group-hover:opacity-75 transition-opacity select-none"
+							class="flex h-24 w-24 items-center justify-center rounded-full bg-accent font-display text-2xl font-bold text-bg transition-opacity select-none group-hover:opacity-75"
 						>
 							{initials}
 						</div>
 					{/if}
 					<div
-						class="absolute inset-0 rounded-full flex items-center justify-center bg-bg/60 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
+						class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-bg/60 opacity-0 transition-opacity group-hover:opacity-100"
 					>
 						{#if avatarLoading}
-							<span class="w-6 h-6 border-2 border-text/40 border-t-text rounded-full animate-spin"
+							<span class="h-6 w-6 animate-spin rounded-full border-2 border-text/40 border-t-text"
 							></span>
 						{:else}
 							<Camera class="h-6 w-6 text-text" />
@@ -140,13 +144,13 @@
 			{#if avatarError}
 				<p class="text-sm text-red-400">{avatarError}</p>
 			{:else}
-				<p class="text-muted text-xs">Cliquez sur l'avatar pour le modifier (max 2 Mo)</p>
+				<p class="text-xs text-muted">Cliquez sur l'avatar pour le modifier (max 2 Mo)</p>
 			{/if}
 		</div>
 
 		<!-- Edit form card -->
-		<div class="bg-surface border border-border rounded-xl p-6 mb-4">
-			<h2 class="text-lg font-semibold text-text mb-4">Informations</h2>
+		<div class="mb-4 rounded-xl border border-border bg-surface p-6">
+			<h2 class="mb-4 text-lg font-semibold text-text">Informations</h2>
 
 			<form
 				method="POST"
@@ -174,7 +178,7 @@
 			>
 				<!-- Username -->
 				<div>
-					<label for="username" class="block text-sm font-medium text-muted mb-1">
+					<label for="username" class="mb-1 block text-sm font-medium text-muted">
 						Nom d'utilisateur
 					</label>
 					<input
@@ -184,27 +188,27 @@
 						bind:value={username}
 						minlength="3"
 						required
-						class="w-full bg-bg border border-border rounded-md px-3 py-2 text-text text-sm placeholder-muted focus:outline-none focus:border-accent transition-colors"
+						class="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm text-text placeholder-muted transition-colors focus:border-accent focus:outline-none"
 						placeholder="votre_pseudo"
 					/>
 				</div>
 
 				<!-- Bio -->
 				<div>
-					<label for="bio" class="block text-sm font-medium text-muted mb-1">Bio</label>
+					<label for="bio" class="mb-1 block text-sm font-medium text-muted">Bio</label>
 					<textarea
 						id="bio"
 						name="bio"
 						bind:value={bio}
 						rows="3"
-						class="w-full bg-bg border border-border rounded-md px-3 py-2 text-text text-sm placeholder-muted focus:outline-none focus:border-accent transition-colors resize-none"
+						class="w-full resize-none rounded-md border border-border bg-bg px-3 py-2 text-sm text-text placeholder-muted transition-colors focus:border-accent focus:outline-none"
 						placeholder="Parlez-nous de vous…"
 					></textarea>
 				</div>
 
 				<!-- Birth date -->
 				<div>
-					<label for="birth_date" class="block text-sm font-medium text-muted mb-1">
+					<label for="birth_date" class="mb-1 block text-sm font-medium text-muted">
 						Date de naissance
 					</label>
 					<input
@@ -212,7 +216,7 @@
 						name="birth_date"
 						type="date"
 						bind:value={birth_date}
-						class="w-full bg-bg border border-border rounded-md px-3 py-2 text-text text-sm focus:outline-none focus:border-accent transition-colors"
+						class="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm text-text transition-colors focus:border-accent focus:outline-none"
 					/>
 				</div>
 
@@ -221,11 +225,11 @@
 					<button
 						type="submit"
 						disabled={profileLoading}
-						class="inline-flex items-center gap-2 bg-accent text-bg px-5 py-2 rounded-md text-sm font-semibold hover:bg-accent-hover transition-colors disabled:opacity-50"
+						class="inline-flex items-center gap-2 rounded-md bg-accent px-5 py-2 text-sm font-semibold text-bg transition-colors hover:bg-accent-hover disabled:opacity-50"
 					>
 						{#if profileLoading}
 							<span
-								class="inline-block w-4 h-4 border-2 border-bg/40 border-t-bg rounded-full animate-spin"
+								class="inline-block h-4 w-4 animate-spin rounded-full border-2 border-bg/40 border-t-bg"
 							></span>
 							Enregistrement…
 						{:else}
@@ -241,43 +245,43 @@
 		</div>
 
 		<!-- Stats card -->
-		<div class="bg-surface border border-border rounded-xl p-6">
-			<h2 class="text-lg font-semibold text-text mb-4">Statistiques</h2>
+		<div class="rounded-xl border border-border bg-surface p-6">
+			<h2 class="mb-4 text-lg font-semibold text-text">Statistiques</h2>
 
-			<div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-				<div class="bg-bg border border-border rounded-lg p-4 text-center">
-					<div class="text-2xl font-bold font-display text-accent">{totalCount}</div>
-					<div class="text-xs text-muted mt-1">Total</div>
+			<div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+				<div class="rounded-lg border border-border bg-bg p-4 text-center">
+					<div class="font-display text-2xl font-bold text-accent">{totalCount}</div>
+					<div class="mt-1 text-xs text-muted">Total</div>
 				</div>
-				<div class="bg-bg border border-border rounded-lg p-4 text-center">
-					<div class="text-2xl font-bold font-display text-text">
+				<div class="rounded-lg border border-border bg-bg p-4 text-center">
+					<div class="font-display text-2xl font-bold text-text">
 						{watchlist.counts.watching}
 					</div>
-					<div class="text-xs text-muted mt-1">En cours</div>
+					<div class="mt-1 text-xs text-muted">En cours</div>
 				</div>
-				<div class="bg-bg border border-border rounded-lg p-4 text-center">
-					<div class="text-2xl font-bold font-display text-text">
+				<div class="rounded-lg border border-border bg-bg p-4 text-center">
+					<div class="font-display text-2xl font-bold text-text">
 						{watchlist.counts.completed}
 					</div>
-					<div class="text-xs text-muted mt-1">Vus</div>
+					<div class="mt-1 text-xs text-muted">Vus</div>
 				</div>
-				<div class="bg-bg border border-border rounded-lg p-4 text-center">
-					<div class="text-2xl font-bold font-display text-text">
+				<div class="rounded-lg border border-border bg-bg p-4 text-center">
+					<div class="font-display text-2xl font-bold text-text">
 						{watchlist.counts.plan_to_watch}
 					</div>
-					<div class="text-xs text-muted mt-1">À voir</div>
+					<div class="mt-1 text-xs text-muted">À voir</div>
 				</div>
-				<div class="bg-bg border border-border rounded-lg p-4 text-center">
-					<div class="text-2xl font-bold font-display text-text">
+				<div class="rounded-lg border border-border bg-bg p-4 text-center">
+					<div class="font-display text-2xl font-bold text-text">
 						{watchlist.counts.on_hold}
 					</div>
-					<div class="text-xs text-muted mt-1">En pause</div>
+					<div class="mt-1 text-xs text-muted">En pause</div>
 				</div>
-				<div class="bg-bg border border-border rounded-lg p-4 text-center">
-					<div class="text-2xl font-bold font-display text-text">
+				<div class="rounded-lg border border-border bg-bg p-4 text-center">
+					<div class="font-display text-2xl font-bold text-text">
 						{watchlist.counts.dropped}
 					</div>
-					<div class="text-xs text-muted mt-1">Abandonnés</div>
+					<div class="mt-1 text-xs text-muted">Abandonnés</div>
 				</div>
 			</div>
 		</div>

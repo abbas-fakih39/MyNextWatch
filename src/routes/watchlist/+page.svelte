@@ -4,12 +4,15 @@
 	import { watchlist } from '$lib/stores/watchlist.svelte';
 	import { toast } from '$lib/stores/toast.svelte';
 	import { getTitle, getYear, getPosterUrl } from '$lib/utils/media';
-	import { STATUS_LABELS, STATUS_OPTIONS, type WatchlistStatus } from '$lib/types/watchlist';
+	import { STATUS_OPTIONS, type WatchlistStatus } from '$lib/types/watchlist';
 	import type { WatchlistEntryWithMedia } from './+page.server';
 
 	let { data } = $props();
 
-	const tabs: { value: WatchlistStatus; label: string }[] = [
+	type TabValue = WatchlistStatus | 'all';
+
+	const tabs: { value: TabValue; label: string }[] = [
+		{ value: 'all', label: 'Tout' },
 		{ value: 'watching', label: 'En cours' },
 		{ value: 'completed', label: 'Vu' },
 		{ value: 'plan_to_watch', label: 'À voir' },
@@ -17,19 +20,29 @@
 		{ value: 'dropped', label: 'Abandonné' }
 	];
 
-	let activeTab = $state<WatchlistStatus>('watching');
+	let activeTab = $state<TabValue>('all');
+	let searchQuery = $state('');
 
 	const filteredEntries = $derived(
-		data.entries.filter((e: WatchlistEntryWithMedia) => e.status === activeTab)
+		data.entries.filter((e: WatchlistEntryWithMedia) => {
+			const q = searchQuery.trim().toLowerCase();
+			if (q) {
+				const title = (e.media ? getTitle(e.media) : e.title).toLowerCase();
+				return title.includes(q);
+			}
+			return activeTab === 'all' || e.status === activeTab;
+		})
 	);
 
-	function handleTabKey(e: KeyboardEvent, tab: { value: WatchlistStatus }) {
+	function tabCount(value: TabValue): number {
+		if (value === 'all') return data.entries.length;
+		return watchlist.counts[value as WatchlistStatus] ?? 0;
+	}
+
+	function handleTabKey(e: KeyboardEvent, tab: { value: TabValue }) {
 		const idx = tabs.findIndex((t) => t.value === tab.value);
-		if (e.key === 'ArrowRight') {
-			activeTab = tabs[(idx + 1) % tabs.length].value;
-		} else if (e.key === 'ArrowLeft') {
-			activeTab = tabs[(idx - 1 + tabs.length) % tabs.length].value;
-		}
+		if (e.key === 'ArrowRight') activeTab = tabs[(idx + 1) % tabs.length].value;
+		else if (e.key === 'ArrowLeft') activeTab = tabs[(idx - 1 + tabs.length) % tabs.length].value;
 	}
 </script>
 
@@ -38,57 +51,105 @@
 </svelte:head>
 
 {#if $navigating}
-	<div class="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 py-8 animate-pulse">
-		<div class="h-10 bg-surface rounded w-48 mb-8"></div>
-		<div class="flex gap-2 mb-8">
+	<div class="mx-auto max-w-400 animate-pulse px-4 py-8 sm:px-6 lg:px-8">
+		<div class="mb-8 h-10 w-48 rounded bg-surface"></div>
+		<div class="mb-8 flex gap-2">
 			{#each { length: 5 } as _}
-				<div class="h-9 bg-surface rounded-full w-24"></div>
+				<div class="h-9 w-24 rounded-full bg-surface"></div>
 			{/each}
 		</div>
 		{#each { length: 4 } as _}
-			<div class="flex gap-4 mb-4 bg-surface rounded-lg p-4">
-				<div class="w-14 h-20 bg-border rounded shrink-0"></div>
+			<div class="mb-4 flex gap-4 rounded-lg bg-surface p-4">
+				<div class="h-20 w-14 shrink-0 rounded bg-border"></div>
 				<div class="flex-1 space-y-2 py-1">
-					<div class="h-4 bg-border rounded w-1/2"></div>
-					<div class="h-3 bg-border rounded w-1/4"></div>
-					<div class="h-3 bg-border rounded w-1/3"></div>
+					<div class="h-4 w-1/2 rounded bg-border"></div>
+					<div class="h-3 w-1/4 rounded bg-border"></div>
+					<div class="h-3 w-1/3 rounded bg-border"></div>
 				</div>
 			</div>
 		{/each}
 	</div>
 {:else}
-	<div class="max-w-400 mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-16">
-		<h1 class="font-display text-4xl sm:text-5xl text-text mb-8">Ma Watchlist</h1>
+	<div class="mx-auto max-w-400 px-4 py-8 pb-16 sm:px-6 lg:px-8">
+		<h1 class="mb-6 font-display text-4xl text-text sm:text-5xl">Ma Watchlist</h1>
 
-		<!-- Tabs -->
-		<div class="flex flex-wrap gap-2 mb-8" role="tablist">
-			{#each tabs as tab (tab.value)}
+		<!-- Search bar -->
+		<div class="relative mb-6 w-full">
+			<svg
+				class="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				stroke-width="2"
+			>
+				<path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"
+				/>
+			</svg>
+			<input
+				type="text"
+				bind:value={searchQuery}
+				placeholder="Rechercher dans toute ma watchlist…"
+				class="w-full rounded-lg border border-border bg-surface py-2.5 pr-10 pl-10 text-sm text-text transition-colors placeholder:text-muted focus:border-accent focus:outline-none"
+			/>
+			{#if searchQuery}
 				<button
-					onclick={() => (activeTab = tab.value)}
-					onkeydown={(e) => handleTabKey(e, tab)}
-					role="tab"
-					aria-selected={activeTab === tab.value}
-					class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-colors {activeTab === tab.value
-						? 'bg-accent text-bg'
-						: 'bg-surface border border-border text-muted hover:text-text hover:border-accent'}"
+					onclick={() => (searchQuery = '')}
+					class="absolute top-1/2 right-3 -translate-y-1/2 text-muted transition-colors hover:text-text"
+					aria-label="Effacer la recherche"
 				>
-					{tab.label}
-					<span
-						class="text-xs px-1.5 py-0.5 rounded-full {activeTab === tab.value
-							? 'bg-bg/20 text-bg'
-							: 'bg-border text-muted'}"
+					<svg
+						class="h-4 w-4"
+						fill="none"
+						viewBox="0 0 24 24"
+						stroke="currentColor"
+						stroke-width="2"
 					>
-						{watchlist.counts[tab.value]}
-					</span>
+						<path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+					</svg>
 				</button>
-			{/each}
+			{/if}
 		</div>
+
+		<!-- Tabs (masqués quand recherche active) -->
+		{#if !searchQuery.trim()}
+			<div class="mb-8 flex flex-wrap gap-2" role="tablist">
+				{#each tabs as tab (tab.value)}
+					<button
+						onclick={() => (activeTab = tab.value)}
+						onkeydown={(e) => handleTabKey(e, tab)}
+						role="tab"
+						aria-selected={activeTab === tab.value}
+						class="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors {activeTab ===
+						tab.value
+							? 'bg-accent text-bg'
+							: 'border border-border bg-surface text-muted hover:border-accent hover:text-text'}"
+					>
+						{tab.label}
+						<span
+							class="rounded-full px-1.5 py-0.5 text-xs {activeTab === tab.value
+								? 'bg-bg/20 text-bg'
+								: 'bg-border text-muted'}"
+						>
+							{tabCount(tab.value)}
+						</span>
+					</button>
+				{/each}
+			</div>
+		{:else}
+			<p class="mb-6 text-sm text-muted">
+				{filteredEntries.length} résultat{filteredEntries.length !== 1 ? 's' : ''} pour
+				<span class="font-medium text-text">"{searchQuery}"</span>
+			</p>
+		{/if}
 
 		<!-- Entry list -->
 		{#if filteredEntries.length === 0}
 			<div class="flex flex-col items-center justify-center py-24 text-center">
 				<svg
-					class="h-16 w-16 text-muted mb-4"
+					class="mb-4 h-16 w-16 text-muted"
 					fill="none"
 					viewBox="0 0 24 24"
 					stroke="currentColor"
@@ -100,10 +161,15 @@
 						d="M7 4v16M17 4v16M3 8h4m10 0h4M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"
 					/>
 				</svg>
-				<p class="text-muted text-lg">Aucune entrée dans cette liste</p>
-				<p class="text-muted text-sm mt-1">
-					Ajoutez des films ou séries depuis leur page de détail.
-				</p>
+				{#if searchQuery.trim()}
+					<p class="text-lg text-muted">Aucun résultat pour "{searchQuery}"</p>
+					<p class="mt-1 text-sm text-muted">Essaie un autre titre.</p>
+				{:else}
+					<p class="text-lg text-muted">Aucune entrée dans cette liste</p>
+					<p class="mt-1 text-sm text-muted">
+						Ajoutez des films ou séries depuis leur page de détail.
+					</p>
+				{/if}
 			</div>
 		{:else}
 			<ul class="space-y-3">
@@ -115,18 +181,18 @@
 							: null}
 					{@const mediaTitle = entry.media ? getTitle(entry.media) : entry.title}
 					{@const year = entry.media ? getYear(entry.media) : null}
-					<li class="flex gap-4 bg-surface border border-border rounded-lg p-3 sm:p-4">
+					<li class="flex gap-4 rounded-lg border border-border bg-surface p-3 sm:p-4">
 						<!-- Poster -->
 						<a href="/{entry.media_type}/{entry.tmdb_id}" class="shrink-0">
 							{#if poster}
 								<img
 									src={poster}
 									alt={mediaTitle}
-									class="w-12 sm:w-14 aspect-2/3 object-cover rounded"
+									class="aspect-2/3 w-12 rounded object-cover sm:w-14"
 								/>
 							{:else}
 								<div
-									class="w-12 sm:w-14 aspect-2/3 bg-border rounded flex items-center justify-center"
+									class="flex aspect-2/3 w-12 items-center justify-center rounded bg-border sm:w-14"
 								>
 									<svg
 										class="h-5 w-5 text-muted"
@@ -146,19 +212,19 @@
 						</a>
 
 						<!-- Info + controls -->
-						<div class="flex-1 min-w-0">
+						<div class="min-w-0 flex-1">
 							<div class="flex items-start justify-between gap-2">
 								<div class="min-w-0">
 									<a
 										href="/{entry.media_type}/{entry.tmdb_id}"
-										class="font-semibold text-text text-sm sm:text-base leading-tight hover:text-accent transition-colors line-clamp-2"
+										class="line-clamp-2 text-sm leading-tight font-semibold text-text transition-colors hover:text-accent sm:text-base"
 									>
 										{mediaTitle}
 									</a>
-									<p class="text-muted text-xs mt-0.5">
+									<p class="mt-0.5 text-xs text-muted">
 										{year ?? ''}
 										<span
-											class="ml-1 border border-border rounded px-1.5 py-0.5 text-[10px] uppercase tracking-wide"
+											class="ml-1 rounded border border-border px-1.5 py-0.5 text-[10px] tracking-wide uppercase"
 										>
 											{entry.media_type === 'movie' ? 'Film' : 'Série'}
 										</span>
@@ -186,7 +252,7 @@
 									<button
 										type="submit"
 										aria-label="Retirer {mediaTitle} de la watchlist"
-										class="text-muted hover:text-red-400 transition-colors p-1 shrink-0"
+										class="shrink-0 p-1 text-muted transition-colors hover:text-red-400"
 									>
 										<svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 											<path
@@ -201,7 +267,7 @@
 							</div>
 
 							<!-- Status + Rating row -->
-							<div class="flex flex-wrap items-center gap-3 mt-2">
+							<div class="mt-2 flex flex-wrap items-center gap-3">
 								<!-- Status selector -->
 								<form
 									method="POST"
@@ -224,7 +290,7 @@
 										name="status"
 										aria-label="Statut de {mediaTitle}"
 										onchange={(e) => (e.currentTarget as HTMLSelectElement).form?.requestSubmit()}
-										class="text-[16px] sm:text-xs bg-bg border border-border rounded px-2 py-1.5 text-text focus:outline-none focus:border-accent cursor-pointer"
+										class="cursor-pointer rounded border border-border bg-bg px-2 py-1.5 text-[16px] text-text focus:border-accent focus:outline-none sm:text-xs"
 									>
 										{#each STATUS_OPTIONS as opt (opt.value)}
 											<option value={opt.value} selected={entry.status === opt.value}>
@@ -254,7 +320,7 @@
 								>
 									<input type="hidden" name="id" value={entry.id} />
 									<div class="flex items-center gap-1">
-										<span class="text-accent text-xs">★</span>
+										<span class="text-xs text-accent">★</span>
 										<input
 											type="number"
 											name="rating"
@@ -270,9 +336,9 @@
 													(e.currentTarget as HTMLInputElement).form?.requestSubmit();
 												}
 											}}
-											class="w-12 text-[16px] sm:text-xs bg-bg border border-border rounded px-2 py-1.5 text-text focus:outline-none focus:border-accent text-center"
+											class="w-12 rounded border border-border bg-bg px-2 py-1.5 text-center text-[16px] text-text focus:border-accent focus:outline-none sm:text-xs"
 										/>
-										<span class="text-muted text-xs">/10</span>
+										<span class="text-xs text-muted">/10</span>
 									</div>
 								</form>
 							</div>
