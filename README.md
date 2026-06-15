@@ -123,4 +123,4 @@ Le déploiement est automatique sur **Vercel** à chaque push sur `main`.
 
 ## Auteur
 
-Abbas Fakih : Projet individuel B3
+Abbas Fakih
