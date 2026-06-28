@@ -92,7 +92,7 @@
 				type="text"
 				bind:value={searchQuery}
 				placeholder="Rechercher dans toute ma watchlist…"
-				class="w-full rounded-lg border border-border bg-surface py-2.5 pr-10 pl-10 text-sm text-text transition-colors placeholder:text-muted focus:border-accent focus:outline-none"
+				class="w-full rounded-lg border border-border bg-surface py-2.5 pr-10 pl-10 text-sm text-text transition-colors placeholder:text-muted focus:border-primary-hover focus:outline-none"
 			/>
 			{#if searchQuery}
 				<button
@@ -124,13 +124,13 @@
 						aria-selected={activeTab === tab.value}
 						class="inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-colors {activeTab ===
 						tab.value
-							? 'bg-accent text-bg'
-							: 'border border-border bg-surface text-muted hover:border-accent hover:text-text'}"
+							? 'bg-primary text-white'
+							: 'border border-border bg-surface text-muted hover:border-primary-hover hover:text-text'}"
 					>
 						{tab.label}
 						<span
 							class="rounded-full px-1.5 py-0.5 text-xs {activeTab === tab.value
-								? 'bg-bg/20 text-bg'
+								? 'bg-white/20 text-white'
 								: 'bg-border text-muted'}"
 						>
 							{tabCount(tab.value)}
@@ -217,7 +217,7 @@
 								<div class="min-w-0">
 									<a
 										href="/{entry.media_type}/{entry.tmdb_id}"
-										class="line-clamp-2 text-sm leading-tight font-semibold text-text transition-colors hover:text-accent sm:text-base"
+										class="line-clamp-2 text-sm leading-tight font-semibold text-text transition-colors hover:text-primary-bright sm:text-base"
 									>
 										{mediaTitle}
 									</a>
@@ -290,7 +290,7 @@
 										name="status"
 										aria-label="Statut de {mediaTitle}"
 										onchange={(e) => (e.currentTarget as HTMLSelectElement).form?.requestSubmit()}
-										class="cursor-pointer rounded border border-border bg-bg px-2 py-1.5 text-[16px] text-text focus:border-accent focus:outline-none sm:text-xs"
+										class="cursor-pointer rounded border border-border bg-bg px-2 py-1.5 text-[16px] text-text focus:border-primary-hover focus:outline-none sm:text-xs"
 									>
 										{#each STATUS_OPTIONS as opt (opt.value)}
 											<option value={opt.value} selected={entry.status === opt.value}>
@@ -336,7 +336,7 @@
 													(e.currentTarget as HTMLInputElement).form?.requestSubmit();
 												}
 											}}
-											class="w-12 rounded border border-border bg-bg px-2 py-1.5 text-center text-[16px] text-text focus:border-accent focus:outline-none sm:text-xs"
+											class="w-12 rounded border border-border bg-bg px-2 py-1.5 text-center text-[16px] text-text focus:border-primary-hover focus:outline-none sm:text-xs"
 										/>
 										<span class="text-xs text-muted">/10</span>
 									</div>

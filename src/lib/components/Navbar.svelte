@@ -32,7 +32,7 @@
 			<!-- Logo -->
 			<a href="/" class="group flex shrink-0 items-center gap-2">
 				<Clapperboard
-					class="h-7 w-7 text-indigo-500 transition-colors group-hover:text-indigo-400"
+					class="h-7 w-7 text-primary-hover transition-colors group-hover:text-primary-bright"
 				/>
 				<span class="hidden text-lg font-bold tracking-tight text-text sm:block">MyNextWatch</span>
 			</a>
@@ -65,7 +65,7 @@
 			<div class="hidden max-w-xs flex-1 items-center md:flex">
 				<NavSearch
 					placeholder="Rechercher..."
-					inputClass="w-full rounded-md border border-border bg-surface py-1.5 pr-9 pl-9 text-sm text-text placeholder-muted transition-all focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+					inputClass="w-full rounded-md border border-border bg-surface py-1.5 pr-9 pl-9 text-sm text-text placeholder-muted transition-all focus:border-primary-hover focus:ring-1 focus:ring-primary-hover focus:outline-none"
 				/>
 			</div>
 
@@ -96,7 +96,7 @@
 				{:else}
 					<a
 						href="/auth"
-						class="hidden rounded-md bg-indigo-600 px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-indigo-500 md:block"
+						class="hidden rounded-md bg-primary px-4 py-1.5 text-sm font-medium text-white transition-colors hover:bg-primary-hover md:block"
 					>
 						Se connecter
 					</a>
@@ -126,7 +126,7 @@
 			<div class="px-4 pt-3 pb-2">
 				<NavSearch
 					placeholder="Rechercher un film ou une série..."
-					inputClass="w-full rounded-md border border-border bg-bg py-2 pr-9 pl-9 text-sm text-text placeholder-muted focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+					inputClass="w-full rounded-md border border-border bg-bg py-2 pr-9 pl-9 text-sm text-text placeholder-muted focus:ring-1 focus:ring-primary-hover focus:outline-none"
 				/>
 			</div>
 
@@ -187,7 +187,7 @@
 				{:else}
 					<a
 						href="/auth"
-						class="block w-full rounded-md bg-indigo-600 px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-indigo-500"
+						class="block w-full rounded-md bg-primary px-4 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-primary-hover"
 						onclick={toggleMenu}
 					>
 						Se connecter / S'inscrire

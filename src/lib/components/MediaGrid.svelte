@@ -97,7 +97,7 @@
 	}
 	.voir-tout-btn:hover {
 		color: var(--color-text);
-		border-color: var(--color-accent);
+		border-color: var(--color-primary-hover);
 	}
 
 	.carousel-wrap {

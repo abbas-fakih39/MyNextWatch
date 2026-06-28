@@ -65,7 +65,7 @@
 							name="username"
 							type="text"
 							required
-							class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+							class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-primary-hover focus:outline-none sm:text-sm"
 							placeholder="Nom d'utilisateur"
 						/>
 					</div>
@@ -76,7 +76,7 @@
 							name="birth_date"
 							type="date"
 							required
-							class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-gray-400 placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+							class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-gray-400 placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-primary-hover focus:outline-none sm:text-sm"
 						/>
 					</div>
 				{/if}
@@ -88,7 +88,7 @@
 						type="email"
 						autocomplete="email"
 						required
-						class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+						class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-primary-hover focus:outline-none sm:text-sm"
 						placeholder="Adresse Email"
 					/>
 				</div>
@@ -100,7 +100,7 @@
 						type="password"
 						autocomplete="current-password"
 						required
-						class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+						class="relative block w-full appearance-none rounded-xl border border-gray-600 bg-gray-700 px-4 py-3 text-white placeholder-gray-500 transition-all focus:border-transparent focus:ring-2 focus:ring-primary-hover focus:outline-none sm:text-sm"
 						placeholder="Mot de passe"
 					/>
 				</div>
@@ -110,7 +110,7 @@
 				<button
 					type="submit"
 					disabled={loading}
-					class="group relative flex w-full justify-center rounded-xl border border-transparent bg-indigo-600 px-4 py-3 text-sm font-bold text-white shadow-lg transition-all hover:bg-indigo-500 hover:shadow-indigo-500/30 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-900 focus:outline-none disabled:opacity-50"
+					class="group relative flex w-full justify-center rounded-xl border border-transparent bg-primary px-4 py-3 text-sm font-bold text-white shadow-lg transition-all hover:bg-primary-hover hover:shadow-primary-hover/30 focus:ring-2 focus:ring-primary-hover focus:ring-offset-2 focus:ring-offset-gray-900 focus:outline-none disabled:opacity-50"
 				>
 					{#if loading}
 						Chargement...
@@ -125,7 +125,7 @@
 			<button
 				type="button"
 				onclick={toggleMode}
-				class="text-sm font-medium text-indigo-400 transition-colors hover:text-indigo-300"
+				class="text-sm font-medium text-primary-bright transition-colors hover:text-primary-bright"
 			>
 				{isRegistering ? 'Déjà un compte ? Se connecter' : "Pas de compte ? S'inscrire"}
 			</button>

@@ -21,7 +21,7 @@
 
 <a
 	{href}
-	class="group flex flex-col overflow-hidden rounded-md bg-surface transition-transform duration-200 ease-out hover:scale-105 hover:shadow-xl hover:shadow-black/50 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+	class="group flex flex-col overflow-hidden rounded-md bg-surface transition-transform duration-200 ease-out hover:scale-105 hover:shadow-xl hover:shadow-black/50 focus:ring-2 focus:ring-primary-hover focus:outline-none"
 >
 	<div class="relative aspect-2/3 w-full overflow-hidden bg-border">
 		{#if posterUrl}

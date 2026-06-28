@@ -69,7 +69,7 @@
 						<input type="hidden" name="page" value={currentPage + 1} />
 						<button
 							type="submit"
-							class="rounded-md border border-border bg-surface px-8 py-3 font-medium text-text transition-colors hover:border-indigo-500 hover:text-white"
+							class="rounded-md border border-border bg-surface px-8 py-3 font-medium text-text transition-colors hover:border-primary-hover hover:text-white"
 						>
 							Charger plus
 						</button>
