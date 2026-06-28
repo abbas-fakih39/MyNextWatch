@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { MediaItem } from '$lib/types/tmdb';
 	import { getTitle, getYear, getHref, getBackdropUrl, truncate } from '$lib/utils/media';
+	import { Flame } from 'lucide-svelte';
 
 	let { item }: { item: MediaItem } = $props();
 
@@ -27,9 +28,9 @@
 	<div class="relative z-10 mx-auto w-full max-w-400 px-6 pt-32 pb-16 sm:px-10">
 		<div class="max-w-2xl">
 			<span
-				class="mb-4 inline-block rounded border border-primary-hover/40 bg-primary/20 px-3 py-1 text-xs font-semibold tracking-wider text-primary-bright uppercase"
+				class="mb-4 inline-flex items-center gap-1.5 rounded border border-primary-hover/40 bg-primary/20 px-3 py-1 text-xs font-semibold tracking-wider text-primary-bright uppercase"
 			>
-				🔥 Tendance du jour
+				<Flame class="h-3.5 w-3.5" /> Tendance du jour
 			</span>
 
 			<h1

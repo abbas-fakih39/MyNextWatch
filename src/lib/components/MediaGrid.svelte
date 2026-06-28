@@ -1,19 +1,22 @@
 <script lang="ts">
 	import MediaCard from './MediaCard.svelte';
 	import type { MediaItem } from '$lib/types/tmdb';
+	import type { ComponentType } from 'svelte';
 
 	let {
 		title,
 		items,
 		viewAllHref,
 		limit = 18,
-		carousel = false
+		carousel = false,
+		icon
 	}: {
 		title: string;
 		items: MediaItem[];
 		viewAllHref?: string;
 		limit?: number;
 		carousel?: boolean;
+		icon?: ComponentType;
 	} = $props();
 
 	let scrollEl = $state<HTMLDivElement | null>(null);
@@ -29,7 +32,10 @@
 
 <section class="mx-auto max-w-400 py-6">
 	<div class="mb-4 flex items-center justify-between px-4 sm:px-6 lg:px-8">
-		<h2 class="text-xl font-bold tracking-tight text-text sm:text-2xl">{title}</h2>
+		<h2 class="flex items-center gap-2 text-xl font-bold tracking-tight text-text sm:text-2xl">
+			{#if icon}{@const Icon = icon}<Icon class="h-5 w-5 text-primary-hover" />{/if}
+			{title}
+		</h2>
 		{#if viewAllHref}
 			<a href={viewAllHref} class="voir-tout-btn">
 				Voir tout

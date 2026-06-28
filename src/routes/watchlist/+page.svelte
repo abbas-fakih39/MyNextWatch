@@ -290,7 +290,7 @@
 										name="status"
 										aria-label="Statut de {mediaTitle}"
 										onchange={(e) => (e.currentTarget as HTMLSelectElement).form?.requestSubmit()}
-										class="cursor-pointer rounded border border-border bg-bg px-2 py-1.5 text-[16px] text-text focus:border-primary-hover focus:outline-none sm:text-xs"
+										class="min-h-11 cursor-pointer rounded border border-border bg-bg px-2 py-1.5 text-[16px] text-text focus:border-primary-hover focus:outline-none sm:min-h-0 sm:text-xs"
 									>
 										{#each STATUS_OPTIONS as opt (opt.value)}
 											<option value={opt.value} selected={entry.status === opt.value}>
@@ -336,7 +336,7 @@
 													(e.currentTarget as HTMLInputElement).form?.requestSubmit();
 												}
 											}}
-											class="w-12 rounded border border-border bg-bg px-2 py-1.5 text-center text-[16px] text-text focus:border-primary-hover focus:outline-none sm:text-xs"
+											class="min-h-11 w-12 rounded border border-border bg-bg px-2 py-1.5 text-center text-[16px] text-text focus:border-primary-hover focus:outline-none sm:min-h-0 sm:text-xs"
 										/>
 										<span class="text-xs text-muted">/10</span>
 									</div>
