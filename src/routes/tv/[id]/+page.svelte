@@ -36,7 +36,7 @@
 		};
 	}
 
-	const backdropUrl = $derived(getBackdropUrl(data.detail, 'original'));
+	const backdropUrl = $derived(getBackdropUrl(data.detail, 'w1280'));
 	const posterUrl = $derived(getPosterUrl(data.detail, 'w500'));
 	const title = $derived(getTitle(data.detail));
 	const year = $derived(getYear(data.detail));
@@ -102,6 +102,7 @@
 				<img
 					src={backdropUrl}
 					alt={title}
+					fetchpriority="high"
 					class="absolute inset-0 h-full w-full object-cover object-top"
 				/>
 			{/if}
@@ -346,6 +347,7 @@
 									<img
 										src="https://image.tmdb.org/t/p/w185{actor.profile_path}"
 										alt={actor.name}
+										loading="lazy"
 										class="mx-auto mb-2 h-20 w-20 rounded-md bg-surface object-cover"
 									/>
 								{:else}

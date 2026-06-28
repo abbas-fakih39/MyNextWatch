@@ -153,7 +153,12 @@
 							: ''}"
 					>
 						{#if poster}
-							<img src={poster} alt="" class="h-12 w-8 shrink-0 rounded object-cover" />
+							<img
+								src={poster}
+								alt=""
+								loading="lazy"
+								class="h-12 w-8 shrink-0 rounded object-cover"
+							/>
 						{:else}
 							<div class="h-12 w-8 shrink-0 rounded bg-border"></div>
 						{/if}

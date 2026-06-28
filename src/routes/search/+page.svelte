@@ -153,7 +153,7 @@
 					/>
 				</svg>
 				<p class="text-lg text-muted">Tapez un titre pour rechercher</p>
-				<p class="mt-1 text-sm text-border">Films, séries, documentaires...</p>
+				<p class="mt-1 text-sm text-muted">Films, séries, documentaires...</p>
 			</div>
 		{:else if items.length === 0 && !loading}
 			<!-- No results -->

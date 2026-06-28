@@ -7,7 +7,7 @@
 
 	let title = $derived(getTitle(item));
 	let year = $derived(getYear(item));
-	let backdropUrl = $derived(getBackdropUrl(item));
+	let backdropUrl = $derived(getBackdropUrl(item, 'w1280'));
 	let href = $derived(getHref(item));
 	let overview = $derived(truncate(item.overview ?? '', 200));
 	let exploreHref = $derived(item.media_type === 'movie' ? '/movies' : '/tv');
@@ -18,6 +18,7 @@
 		<img
 			src={backdropUrl}
 			alt={title}
+			fetchpriority="high"
 			class="absolute inset-0 h-full w-full object-cover object-center"
 		/>
 	{/if}
