@@ -3,6 +3,7 @@
 	import { goto } from '$app/navigation';
 	import { Menu, X, Film, Tv, List, LogOut, Clapperboard, Search } from 'lucide-svelte';
 	import Avatar from '$lib/components/Avatar.svelte';
+	import NavSearch from '$lib/components/NavSearch.svelte';
 
 	let isMobileMenuOpen = $state(false);
 	let searchQuery = $state('');
@@ -79,22 +80,13 @@
 				{/if}
 			</div>
 
-			<!-- Search bar desktop -->
-			<form onsubmit={handleSearchSubmit} class="hidden max-w-xs flex-1 items-center md:flex">
-				<div class="relative w-full">
-					<Search
-						class="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted"
-					/>
-					<input
-						name="q"
-						type="search"
-						placeholder="Rechercher..."
-						bind:value={searchQuery}
-						oninput={handleSearchInput}
-						class="w-full rounded-md border border-border bg-surface py-1.5 pr-3 pl-9 text-sm text-text placeholder-muted transition-all focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
-					/>
-				</div>
-			</form>
+			<!-- Search bar desktop (with quick-results dropdown) -->
+			<div class="hidden max-w-xs flex-1 items-center md:flex">
+				<NavSearch
+					placeholder="Rechercher..."
+					inputClass="w-full rounded-md border border-border bg-surface py-1.5 pr-9 pl-9 text-sm text-text placeholder-muted transition-all focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+				/>
+			</div>
 
 			<!-- Desktop Auth + Mobile controls -->
 			<div class="flex shrink-0 items-center gap-3">
