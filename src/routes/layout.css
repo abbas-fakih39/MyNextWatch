@@ -10,6 +10,11 @@
 	--color-accent: #e8b423;
 	--color-accent-hover: #f5c842;
 
+	--color-primary: #4f46e5; /* indigo-600 — solid fills (buttons) */
+	--color-primary-hover: #6366f1; /* indigo-500 — button hover; UI accents: rings, icons, borders */
+	--color-primary-bright: #818cf8; /* indigo-400 — readable links/badge text on dark */
+	--color-nav: #161530; /* dark indigo navbar bg */
+
 	--font-display: 'Bebas Neue', sans-serif;
 	--font-body: 'DM Sans', sans-serif;
 }

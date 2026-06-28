@@ -123,11 +123,11 @@
 					placeholder="Titre d'un film ou d'une série..."
 					value={query}
 					oninput={handleInput}
-					class="w-full rounded-md border border-border bg-surface py-3 pr-12 pl-12 text-base text-text placeholder-muted transition-all focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:outline-none"
+					class="w-full rounded-md border border-border bg-surface py-3 pr-12 pl-12 text-base text-text placeholder-muted transition-all focus:border-primary-hover focus:ring-2 focus:ring-primary-hover focus:outline-none"
 				/>
 				{#if loading}
 					<span
-						class="absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 animate-spin rounded-full border-2 border-muted/40 border-t-indigo-500"
+						class="absolute top-1/2 right-4 h-5 w-5 -translate-y-1/2 animate-spin rounded-full border-2 border-muted/40 border-t-primary-hover"
 						aria-label="Recherche en cours"
 					></span>
 				{/if}
@@ -153,7 +153,7 @@
 					/>
 				</svg>
 				<p class="text-lg text-muted">Tapez un titre pour rechercher</p>
-				<p class="mt-1 text-sm text-border">Films, séries, documentaires...</p>
+				<p class="mt-1 text-sm text-muted">Films, séries, documentaires...</p>
 			</div>
 		{:else if items.length === 0 && !loading}
 			<!-- No results -->
@@ -197,11 +197,11 @@
 						type="button"
 						onclick={loadMore}
 						disabled={loadingMore}
-						class="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-6 py-2.5 text-sm font-medium text-text transition-colors hover:border-indigo-500 hover:text-indigo-400 disabled:opacity-50"
+						class="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-6 py-2.5 text-sm font-medium text-text transition-colors hover:border-primary-hover hover:text-primary-bright disabled:opacity-50"
 					>
 						{#if loadingMore}
 							<span
-								class="h-4 w-4 animate-spin rounded-full border-2 border-muted/40 border-t-indigo-500"
+								class="h-4 w-4 animate-spin rounded-full border-2 border-muted/40 border-t-primary-hover"
 							></span>
 							Chargement…
 						{:else}

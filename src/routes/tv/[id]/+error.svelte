@@ -14,7 +14,7 @@
 	</p>
 	<a
 		href="/tv"
-		class="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-6 py-3 font-medium text-text transition-colors hover:border-accent hover:text-accent"
+		class="inline-flex items-center gap-2 rounded-md border border-border bg-surface px-6 py-3 font-medium text-text transition-colors hover:border-primary-hover hover:text-primary-bright"
 	>
 		← Retour aux séries
 	</a>

@@ -28,7 +28,7 @@ export function getPosterUrl(
 
 export function getBackdropUrl(
 	item: AnyMedia,
-	size: 'w780' | 'original' = 'original'
+	size: 'w780' | 'w1280' | 'original' = 'original'
 ): string | null {
 	return item.backdrop_path ? `https://image.tmdb.org/t/p/${size}${item.backdrop_path}` : null;
 }

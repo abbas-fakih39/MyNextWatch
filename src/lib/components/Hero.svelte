@@ -1,12 +1,13 @@
 <script lang="ts">
 	import type { MediaItem } from '$lib/types/tmdb';
 	import { getTitle, getYear, getHref, getBackdropUrl, truncate } from '$lib/utils/media';
+	import { Flame } from 'lucide-svelte';
 
 	let { item }: { item: MediaItem } = $props();
 
 	let title = $derived(getTitle(item));
 	let year = $derived(getYear(item));
-	let backdropUrl = $derived(getBackdropUrl(item));
+	let backdropUrl = $derived(getBackdropUrl(item, 'w1280'));
 	let href = $derived(getHref(item));
 	let overview = $derived(truncate(item.overview ?? '', 200));
 	let exploreHref = $derived(item.media_type === 'movie' ? '/movies' : '/tv');
@@ -17,6 +18,7 @@
 		<img
 			src={backdropUrl}
 			alt={title}
+			fetchpriority="high"
 			class="absolute inset-0 h-full w-full object-cover object-center"
 		/>
 	{/if}
@@ -27,9 +29,9 @@
 	<div class="relative z-10 mx-auto w-full max-w-400 px-6 pt-32 pb-16 sm:px-10">
 		<div class="max-w-2xl">
 			<span
-				class="mb-4 inline-block rounded border border-indigo-500/40 bg-indigo-600/20 px-3 py-1 text-xs font-semibold tracking-wider text-indigo-300 uppercase"
+				class="mb-4 inline-flex items-center gap-1.5 rounded border border-primary-hover/40 bg-primary/20 px-3 py-1 text-xs font-semibold tracking-wider text-primary-bright uppercase"
 			>
-				🔥 Tendance du jour
+				<Flame class="h-3.5 w-3.5" /> Tendance du jour
 			</span>
 
 			<h1
@@ -51,7 +53,7 @@
 			<div class="flex flex-wrap gap-3">
 				<a
 					{href}
-					class="inline-flex items-center gap-2 rounded-md bg-indigo-600 px-6 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 hover:bg-indigo-500"
+					class="inline-flex items-center gap-2 rounded-md bg-primary px-6 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 hover:bg-primary-hover"
 				>
 					<svg
 						class="h-5 w-5"

@@ -129,7 +129,7 @@
 			/>
 			{#if loading}
 				<span
-					class="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 animate-spin rounded-full border-2 border-muted/40 border-t-indigo-500"
+					class="absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2 animate-spin rounded-full border-2 border-muted/40 border-t-primary-hover"
 					aria-label="Recherche en cours"
 				></span>
 			{/if}
@@ -153,7 +153,12 @@
 							: ''}"
 					>
 						{#if poster}
-							<img src={poster} alt="" class="h-12 w-8 shrink-0 rounded object-cover" />
+							<img
+								src={poster}
+								alt=""
+								loading="lazy"
+								class="h-12 w-8 shrink-0 rounded object-cover"
+							/>
 						{:else}
 							<div class="h-12 w-8 shrink-0 rounded bg-border"></div>
 						{/if}
@@ -169,7 +174,7 @@
 			<li class="border-t border-border">
 				<a
 					href="/search?q={encodeURIComponent(trimmed)}"
-					class="block px-3 py-2 text-center text-sm font-medium text-indigo-400 transition-colors hover:bg-border"
+					class="block px-3 py-2 text-center text-sm font-medium text-primary-bright transition-colors hover:bg-border"
 				>
 					Voir tous les résultats pour « {trimmed} »
 				</a>

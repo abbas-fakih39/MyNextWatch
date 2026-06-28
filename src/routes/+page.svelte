@@ -1,6 +1,7 @@
 <script lang="ts">
 	import Hero from '$lib/components/Hero.svelte';
 	import MediaGrid from '$lib/components/MediaGrid.svelte';
+	import { TrendingUp, Film, Tv } from 'lucide-svelte';
 
 	let { data } = $props();
 </script>
@@ -17,14 +18,15 @@
 	<Hero item={data.hero} />
 {/if}
 
-<div class="bg-gray-900 pb-12">
+<div class="bg-bg pb-12">
 	{#if data.trending?.length}
-		<MediaGrid title="📈 Tendances du jour" items={data.trending} carousel={true} />
+		<MediaGrid title="Tendances du jour" icon={TrendingUp} items={data.trending} carousel={true} />
 	{/if}
 
 	{#if data.popularMovies?.length}
 		<MediaGrid
-			title="🎬 Films Populaires"
+			title="Films Populaires"
+			icon={Film}
 			items={data.popularMovies}
 			viewAllHref="/movies"
 			carousel={true}
@@ -33,7 +35,8 @@
 
 	{#if data.popularTV?.length}
 		<MediaGrid
-			title="📺 Séries Populaires"
+			title="Séries Populaires"
+			icon={Tv}
 			items={data.popularTV}
 			viewAllHref="/tv"
 			carousel={true}

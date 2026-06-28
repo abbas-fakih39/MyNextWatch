@@ -41,7 +41,7 @@
 				<button
 					onclick={() => toast.remove(item.id)}
 					aria-label="Fermer"
-					class="ml-1 shrink-0 text-current opacity-60 transition-opacity hover:opacity-100"
+					class="-mr-1 flex size-9 shrink-0 items-center justify-center rounded text-current opacity-60 transition-opacity hover:opacity-100"
 				>
 					<svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 						<path

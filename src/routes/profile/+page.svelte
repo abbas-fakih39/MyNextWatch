@@ -107,7 +107,7 @@
 				<button
 					type="button"
 					onclick={() => fileInput?.click()}
-					class="block rounded-full focus:ring-2 focus:ring-accent focus:outline-none"
+					class="block rounded-full focus:ring-2 focus:ring-primary-hover focus:outline-none"
 					title="Modifier l'avatar"
 					aria-label="Modifier l'avatar"
 				>
@@ -178,7 +178,7 @@
 						bind:value={username}
 						minlength="3"
 						required
-						class="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm text-text placeholder-muted transition-colors focus:border-accent focus:outline-none"
+						class="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm text-text placeholder-muted transition-colors focus:border-primary-hover focus:outline-none"
 						placeholder="votre_pseudo"
 					/>
 				</div>
@@ -191,7 +191,7 @@
 						name="bio"
 						bind:value={bio}
 						rows="3"
-						class="w-full resize-none rounded-md border border-border bg-bg px-3 py-2 text-sm text-text placeholder-muted transition-colors focus:border-accent focus:outline-none"
+						class="w-full resize-none rounded-md border border-border bg-bg px-3 py-2 text-sm text-text placeholder-muted transition-colors focus:border-primary-hover focus:outline-none"
 						placeholder="Parlez-nous de vous…"
 					></textarea>
 				</div>
@@ -206,7 +206,7 @@
 						name="birth_date"
 						type="date"
 						bind:value={birth_date}
-						class="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm text-text transition-colors focus:border-accent focus:outline-none"
+						class="w-full rounded-md border border-border bg-bg px-3 py-2 text-sm text-text transition-colors focus:border-primary-hover focus:outline-none"
 					/>
 				</div>
 

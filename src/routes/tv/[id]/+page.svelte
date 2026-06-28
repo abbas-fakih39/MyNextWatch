@@ -25,7 +25,18 @@
 		watchlistOpen = !watchlistOpen;
 	}
 
-	const backdropUrl = $derived(getBackdropUrl(data.detail, 'original'));
+	// Close the status dropdown on a click outside the button + menu.
+	function clickOutside(onClose: () => void) {
+		return (node: HTMLElement) => {
+			function handle(event: MouseEvent) {
+				if (!node.contains(event.target as Node)) onClose();
+			}
+			document.addEventListener('click', handle, true);
+			return () => document.removeEventListener('click', handle, true);
+		};
+	}
+
+	const backdropUrl = $derived(getBackdropUrl(data.detail, 'w1280'));
 	const posterUrl = $derived(getPosterUrl(data.detail, 'w500'));
 	const title = $derived(getTitle(data.detail));
 	const year = $derived(getYear(data.detail));
@@ -43,6 +54,12 @@
 	<title>{title} — MyNextWatch</title>
 	<meta name="description" content={data.detail.overview} />
 </svelte:head>
+
+<svelte:window
+	onkeydown={(e) => {
+		if (e.key === 'Escape') watchlistOpen = false;
+	}}
+/>
 
 {#if $navigating}
 	<div class="min-h-screen animate-pulse bg-bg">
@@ -85,6 +102,7 @@
 				<img
 					src={backdropUrl}
 					alt={title}
+					fetchpriority="high"
 					class="absolute inset-0 h-full w-full object-cover object-top"
 				/>
 			{/if}
@@ -185,7 +203,7 @@
 					{/if}
 
 					<!-- Watchlist button -->
-					<div class="relative inline-block">
+					<div class="relative inline-block" {@attach clickOutside(() => (watchlistOpen = false))}>
 						<button
 							onclick={handleWatchlistClick}
 							class="inline-flex items-center gap-2 rounded-md border px-5 py-2.5 text-sm font-semibold transition-colors {currentEntry
@@ -329,6 +347,7 @@
 									<img
 										src="https://image.tmdb.org/t/p/w185{actor.profile_path}"
 										alt={actor.name}
+										loading="lazy"
 										class="mx-auto mb-2 h-20 w-20 rounded-md bg-surface object-cover"
 									/>
 								{:else}
