@@ -17,7 +17,7 @@
 	<Hero item={data.hero} />
 {/if}
 
-<div class="bg-gray-900 pb-12">
+<div class="bg-bg pb-12">
 	{#if data.trending?.length}
 		<MediaGrid title="📈 Tendances du jour" items={data.trending} carousel={true} />
 	{/if}

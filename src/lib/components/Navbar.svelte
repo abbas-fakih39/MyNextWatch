@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { auth } from '$lib/stores/auth.svelte';
 	import { afterNavigate } from '$app/navigation';
+	import { page } from '$app/state';
 	import { Menu, X, Film, Tv, List, LogOut, Clapperboard, Search } from 'lucide-svelte';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import NavSearch from '$lib/components/NavSearch.svelte';
 
 	let isMobileMenuOpen = $state(false);
+
+	// Active-page indicator. '/movie' covers both /movies and /movie/[id]; '/tv'
+	// covers /tv and /tv/[id].
+	const isActive = (prefix: string) => page.url.pathname.startsWith(prefix);
 
 	const username = $derived(auth.user?.user_metadata?.username ?? null);
 	// Storage path is fixed (upsert), so cache-bust with the user's updated_at
@@ -26,7 +31,7 @@
 	});
 </script>
 
-<nav class="sticky top-0 z-50 border-b border-border bg-bg/90 backdrop-blur-md">
+<nav class="sticky top-0 z-50 border-b border-primary/30 bg-nav/90 backdrop-blur-md">
 	<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 		<div class="flex h-16 items-center justify-between gap-4">
 			<!-- Logo -->
@@ -41,20 +46,35 @@
 			<div class="hidden md:flex md:items-center md:gap-6">
 				<a
 					href="/movies"
-					class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-text"
+					aria-current={isActive('/movie') ? 'page' : undefined}
+					class="flex items-center gap-1.5 border-b-2 pb-0.5 text-sm font-medium transition-colors {isActive(
+						'/movie'
+					)
+						? 'border-primary-hover text-text'
+						: 'border-transparent text-muted hover:text-text'}"
 				>
 					<Film class="h-4 w-4" /> Films
 				</a>
 				<a
 					href="/tv"
-					class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-text"
+					aria-current={isActive('/tv') ? 'page' : undefined}
+					class="flex items-center gap-1.5 border-b-2 pb-0.5 text-sm font-medium transition-colors {isActive(
+						'/tv'
+					)
+						? 'border-primary-hover text-text'
+						: 'border-transparent text-muted hover:text-text'}"
 				>
 					<Tv class="h-4 w-4" /> Séries
 				</a>
 				{#if auth.session}
 					<a
 						href="/watchlist"
-						class="flex items-center gap-1.5 text-sm font-medium text-muted transition-colors hover:text-text"
+						aria-current={isActive('/watchlist') ? 'page' : undefined}
+						class="flex items-center gap-1.5 border-b-2 pb-0.5 text-sm font-medium transition-colors {isActive(
+							'/watchlist'
+						)
+							? 'border-primary-hover text-text'
+							: 'border-transparent text-muted hover:text-text'}"
 					>
 						<List class="h-4 w-4" /> Ma Watchlist
 					</a>
@@ -133,14 +153,24 @@
 			<div class="space-y-1 px-2 pb-3">
 				<a
 					href="/movies"
-					class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted hover:bg-border hover:text-text"
+					aria-current={isActive('/movie') ? 'page' : undefined}
+					class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors {isActive(
+						'/movie'
+					)
+						? 'bg-primary/10 text-primary-bright'
+						: 'text-muted hover:bg-border hover:text-text'}"
 					onclick={toggleMenu}
 				>
 					<Film class="h-4 w-4" /> Films
 				</a>
 				<a
 					href="/tv"
-					class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted hover:bg-border hover:text-text"
+					aria-current={isActive('/tv') ? 'page' : undefined}
+					class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors {isActive(
+						'/tv'
+					)
+						? 'bg-primary/10 text-primary-bright'
+						: 'text-muted hover:bg-border hover:text-text'}"
 					onclick={toggleMenu}
 				>
 					<Tv class="h-4 w-4" /> Séries
@@ -148,7 +178,12 @@
 				{#if auth.session}
 					<a
 						href="/watchlist"
-						class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium text-muted hover:bg-border hover:text-text"
+						aria-current={isActive('/watchlist') ? 'page' : undefined}
+						class="flex items-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-colors {isActive(
+							'/watchlist'
+						)
+							? 'bg-primary/10 text-primary-bright'
+							: 'text-muted hover:bg-border hover:text-text'}"
 						onclick={toggleMenu}
 					>
 						<List class="h-4 w-4" /> Ma Watchlist
