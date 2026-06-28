@@ -1,12 +1,11 @@
 <script lang="ts">
 	import { auth } from '$lib/stores/auth.svelte';
-	import { goto } from '$app/navigation';
+	import { afterNavigate } from '$app/navigation';
 	import { Menu, X, Film, Tv, List, LogOut, Clapperboard, Search } from 'lucide-svelte';
 	import Avatar from '$lib/components/Avatar.svelte';
 	import NavSearch from '$lib/components/NavSearch.svelte';
 
 	let isMobileMenuOpen = $state(false);
-	let searchQuery = $state('');
 
 	const username = $derived(auth.user?.user_metadata?.username ?? null);
 	// Storage path is fixed (upsert), so cache-bust with the user's updated_at
@@ -21,28 +20,10 @@
 		isMobileMenuOpen = !isMobileMenuOpen;
 	}
 
-	let searchDebounce: ReturnType<typeof setTimeout>;
-
-	// Debounced live navigation (matches the /search page: 400ms, min 2 chars).
-	// replaceState avoids stacking a history entry per keystroke; the /search
-	// page takes over with its own live search + "show more" once we land there.
-	function handleSearchInput(e: Event) {
-		const value = (e.currentTarget as HTMLInputElement).value;
-		clearTimeout(searchDebounce);
-		if (value.trim().length >= 2) {
-			searchDebounce = setTimeout(() => {
-				goto(`/search?q=${encodeURIComponent(value.trim())}`, { replaceState: true });
-			}, 400);
-		}
-	}
-
-	function handleSearchSubmit(e: Event) {
-		e.preventDefault();
-		clearTimeout(searchDebounce);
-		if (searchQuery.trim().length >= 1) {
-			goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
-		}
-	}
+	// Close the mobile menu after navigating (e.g. picking a quick-search result).
+	afterNavigate(() => {
+		isMobileMenuOpen = false;
+	});
 </script>
 
 <nav class="sticky top-0 z-50 border-b border-border bg-bg/90 backdrop-blur-md">
@@ -141,23 +122,12 @@
 	<!-- Mobile Navigation -->
 	{#if isMobileMenuOpen}
 		<div class="border-b border-border bg-surface md:hidden">
-			<!-- Mobile search -->
+			<!-- Mobile search (with quick-results dropdown) -->
 			<div class="px-4 pt-3 pb-2">
-				<form onsubmit={handleSearchSubmit}>
-					<div class="relative">
-						<Search
-							class="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted"
-						/>
-						<input
-							name="q"
-							type="search"
-							placeholder="Rechercher un film ou une série..."
-							bind:value={searchQuery}
-							oninput={handleSearchInput}
-							class="w-full rounded-md border border-border bg-bg py-2 pr-3 pl-9 text-sm text-text placeholder-muted focus:ring-1 focus:ring-indigo-500 focus:outline-none"
-						/>
-					</div>
-				</form>
+				<NavSearch
+					placeholder="Rechercher un film ou une série..."
+					inputClass="w-full rounded-md border border-border bg-bg py-2 pr-9 pl-9 text-sm text-text placeholder-muted focus:ring-1 focus:ring-indigo-500 focus:outline-none"
+				/>
 			</div>
 
 			<div class="space-y-1 px-2 pb-3">
