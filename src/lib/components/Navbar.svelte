@@ -1,10 +1,20 @@
 <script lang="ts">
 	import { auth } from '$lib/stores/auth.svelte';
 	import { goto } from '$app/navigation';
-	import { Menu, X, Film, Tv, List, User, LogOut, Clapperboard, Search } from 'lucide-svelte';
+	import { Menu, X, Film, Tv, List, LogOut, Clapperboard, Search } from 'lucide-svelte';
+	import Avatar from '$lib/components/Avatar.svelte';
 
 	let isMobileMenuOpen = $state(false);
 	let searchQuery = $state('');
+
+	const username = $derived(auth.user?.user_metadata?.username ?? null);
+	// Storage path is fixed (upsert), so cache-bust with the user's updated_at
+	// to refresh the photo immediately after an upload.
+	const avatarUrl = $derived(
+		auth.user?.user_metadata?.avatar_url
+			? `${auth.user.user_metadata.avatar_url}?t=${encodeURIComponent(auth.user.updated_at ?? '')}`
+			: null
+	);
 
 	function toggleMenu() {
 		isMobileMenuOpen = !isMobileMenuOpen;
@@ -81,9 +91,8 @@
 						href="/profile"
 						class="hidden items-center gap-2 text-muted transition-colors hover:text-text md:flex"
 					>
-						<User class="h-5 w-5" />
-						<span class="text-sm font-medium">{auth.user?.user_metadata?.username ?? 'Profil'}</span
-						>
+						<Avatar src={avatarUrl} name={username} class="h-7 w-7 text-xs" />
+						<span class="text-sm font-medium">{username ?? 'Profil'}</span>
 					</a>
 					<form action="/auth/logout" method="POST" class="hidden md:block">
 						<button
@@ -170,12 +179,10 @@
 			<div class="border-t border-border px-4 py-3">
 				{#if auth.session}
 					<div class="mb-3 flex items-center gap-3">
-						<div class="shrink-0 rounded-full bg-border p-2">
-							<User class="h-5 w-5 text-muted" />
-						</div>
+						<Avatar src={avatarUrl} name={username} class="h-10 w-10 shrink-0 text-sm" />
 						<div>
 							<div class="text-sm font-medium text-text">
-								{auth.user?.user_metadata?.username ?? 'Utilisateur'}
+								{username ?? 'Utilisateur'}
 							</div>
 							<div class="text-xs text-muted">{auth.user?.email}</div>
 						</div>
