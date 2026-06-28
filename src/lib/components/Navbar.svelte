@@ -20,8 +20,24 @@
 		isMobileMenuOpen = !isMobileMenuOpen;
 	}
 
+	let searchDebounce: ReturnType<typeof setTimeout>;
+
+	// Debounced live navigation (matches the /search page: 400ms, min 2 chars).
+	// replaceState avoids stacking a history entry per keystroke; the /search
+	// page takes over with its own live search + "show more" once we land there.
+	function handleSearchInput(e: Event) {
+		const value = (e.currentTarget as HTMLInputElement).value;
+		clearTimeout(searchDebounce);
+		if (value.trim().length >= 2) {
+			searchDebounce = setTimeout(() => {
+				goto(`/search?q=${encodeURIComponent(value.trim())}`, { replaceState: true });
+			}, 400);
+		}
+	}
+
 	function handleSearchSubmit(e: Event) {
 		e.preventDefault();
+		clearTimeout(searchDebounce);
 		if (searchQuery.trim().length >= 1) {
 			goto(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
 		}
@@ -74,6 +90,7 @@
 						type="search"
 						placeholder="Rechercher..."
 						bind:value={searchQuery}
+						oninput={handleSearchInput}
 						class="w-full rounded-md border border-border bg-surface py-1.5 pr-3 pl-9 text-sm text-text placeholder-muted transition-all focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none"
 					/>
 				</div>
@@ -144,6 +161,7 @@
 							type="search"
 							placeholder="Rechercher un film ou une série..."
 							bind:value={searchQuery}
+							oninput={handleSearchInput}
 							class="w-full rounded-md border border-border bg-bg py-2 pr-3 pl-9 text-sm text-text placeholder-muted focus:ring-1 focus:ring-indigo-500 focus:outline-none"
 						/>
 					</div>
