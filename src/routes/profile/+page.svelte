@@ -4,6 +4,7 @@
 	import { watchlist } from '$lib/stores/watchlist.svelte';
 	import { toast } from '$lib/stores/toast.svelte';
 	import { Camera } from 'lucide-svelte';
+	import Avatar from '$lib/components/Avatar.svelte';
 
 	let { data } = $props();
 
@@ -23,11 +24,6 @@
 	let avatarError = $state<string | null>(null);
 	let profileLoading = $state(false);
 	let avatarLoading = $state(false);
-
-	// Avatar fallback initials
-	const initials = $derived(
-		username.trim().length >= 1 ? username.trim().slice(0, 2).toUpperCase() : '?'
-	);
 
 	// Watchlist stats
 	const totalCount = $derived(watchlist.entries.length);
@@ -115,19 +111,13 @@
 					title="Modifier l'avatar"
 					aria-label="Modifier l'avatar"
 				>
-					{#if data.profile?.avatar_url}
-						<img
-							src="{data.profile.avatar_url}?t={encodeURIComponent(data.profile.updated_at ?? '')}"
-							alt="Avatar de {username || 'utilisateur'}"
-							class="h-24 w-24 rounded-full border-2 border-border object-cover transition-opacity group-hover:opacity-75"
-						/>
-					{:else}
-						<div
-							class="flex h-24 w-24 items-center justify-center rounded-full bg-accent font-display text-2xl font-bold text-bg transition-opacity select-none group-hover:opacity-75"
-						>
-							{initials}
-						</div>
-					{/if}
+					<Avatar
+						src={data.profile?.avatar_url
+							? `${data.profile.avatar_url}?t=${encodeURIComponent(data.profile.updated_at ?? '')}`
+							: null}
+						name={username}
+						class="h-24 w-24 border-2 border-border text-2xl transition-opacity group-hover:opacity-75"
+					/>
 					<div
 						class="pointer-events-none absolute inset-0 flex items-center justify-center rounded-full bg-bg/60 opacity-0 transition-opacity group-hover:opacity-100"
 					>
