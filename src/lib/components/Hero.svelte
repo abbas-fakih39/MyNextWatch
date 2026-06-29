@@ -13,20 +13,29 @@
 	let exploreHref = $derived(item.media_type === 'movie' ? '/movies' : '/tv');
 </script>
 
-<div class="relative flex min-h-[70vh] items-end overflow-hidden bg-bg">
-	{#if backdropUrl}
-		<img
-			src={backdropUrl}
-			alt={title}
-			fetchpriority="high"
-			class="absolute inset-0 h-full w-full object-cover object-center"
-		/>
-	{/if}
+<div class="relative flex flex-col overflow-hidden bg-bg lg:min-h-[70vh] lg:items-end">
+	<!-- Backdrop: full 16:9 on mobile/tablet (no horizontal crop), full-bleed cover on desktop -->
+	<div class="relative w-full lg:absolute lg:inset-0 lg:h-full">
+		{#if backdropUrl}
+			<img
+				src={backdropUrl}
+				alt={title}
+				fetchpriority="high"
+				class="block w-full object-cover object-center lg:h-full"
+			/>
+		{/if}
 
-	<div class="absolute inset-0 bg-linear-to-t from-bg via-bg/60 to-transparent"></div>
-	<div class="absolute inset-0 bg-linear-to-r from-bg/80 via-bg/30 to-transparent"></div>
+		<!-- Bottom fade into the page background -->
+		<div class="absolute inset-0 bg-linear-to-t from-bg via-bg/60 to-transparent"></div>
+		<!-- Left fade for overlaid-text legibility (desktop only) -->
+		<div
+			class="absolute inset-0 hidden bg-linear-to-r from-bg/80 via-bg/30 to-transparent lg:block"
+		></div>
+	</div>
 
-	<div class="relative z-10 mx-auto w-full max-w-400 px-6 pt-32 pb-16 sm:px-10">
+	<div
+		class="relative z-10 mx-auto -mt-24 w-full max-w-400 px-6 pb-12 sm:-mt-32 sm:px-10 lg:mt-0 lg:pt-32 lg:pb-16"
+	>
 		<div class="max-w-2xl">
 			<span
 				class="mb-4 inline-flex items-center gap-1.5 rounded border border-primary-hover/40 bg-primary/20 px-3 py-1 text-xs font-semibold tracking-wider text-primary-bright uppercase"
