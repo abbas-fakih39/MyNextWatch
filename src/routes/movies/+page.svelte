@@ -4,7 +4,7 @@
 	import MediaCardSkeleton from '$lib/components/MediaCardSkeleton.svelte';
 	import type { MediaItem } from '$lib/types/tmdb';
 
-	let { data, form } = $props();
+	let { data } = $props();
 
 	let extraItems = $state<MediaItem[]>([]);
 	let currentPage = $state(1);
@@ -12,13 +12,6 @@
 
 	const allItems = $derived([...data.items, ...extraItems]);
 	const hasMore = $derived(currentPage < data.totalPages);
-
-	$effect(() => {
-		if (form?.items) {
-			extraItems = [...extraItems, ...(form.items as MediaItem[])];
-			currentPage = form.page as number;
-		}
-	});
 </script>
 
 <svelte:head>
@@ -60,9 +53,12 @@
 						action="?/more"
 						use:enhance={() => {
 							loading = true;
-							return async ({ update }) => {
+							return async ({ result }) => {
+								if (result.type === 'success' && result.data?.items) {
+									extraItems = [...extraItems, ...(result.data.items as MediaItem[])];
+									currentPage = result.data.page as number;
+								}
 								loading = false;
-								await update({ reset: false });
 							};
 						}}
 					>

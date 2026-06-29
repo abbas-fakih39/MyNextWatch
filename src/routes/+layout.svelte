@@ -17,12 +17,24 @@
 		watchlist.setEntries(data.watchlistEntries ?? []);
 	});
 
+	let activeTransition: ViewTransition | null = null;
+
 	onNavigate((navigation) => {
 		if (!document.startViewTransition) return;
+
+		// A new navigation may start before the previous transition finishes
+		// (e.g. clicking nav links quickly). Skip the in-flight one so its
+		// old-page snapshot doesn't stay painted over the new page — the cause
+		// of the page appearing "stuck" until a refresh.
+		activeTransition?.skipTransition();
+
 		return new Promise((resolve) => {
-			document.startViewTransition(async () => {
+			activeTransition = document.startViewTransition(async () => {
 				resolve();
 				await navigation.complete;
+			});
+			activeTransition.finished.finally(() => {
+				activeTransition = null;
 			});
 		});
 	});
