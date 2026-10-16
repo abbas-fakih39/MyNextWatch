@@ -13,7 +13,7 @@
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
 		"test:unit": "vitest",
-		"test": "npm run test:unit -- --run",
+		"test": "pnpm run test:unit --run",
 		"commit": "cz"
 	},
 	"config": {
@@ -54,5 +54,6 @@
 		"@supabase/ssr": "^0.10.2",
 		"@supabase/supabase-js": "^2.105.1",
 		"lucide-svelte": "^1.0.1"
-	}
+	},
+	"packageManager": "pnpm@10.32.1"
 }

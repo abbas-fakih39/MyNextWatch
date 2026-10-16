@@ -82,14 +82,14 @@ git clone https://github.com/abbas-fakih39/MyNextWatch.git
 cd MyNextWatch
 
 # 2. Installer les dépendances
-npm install
+pnpm install --frozen-lockfile
 
 # 3. Variables d'environnement
 cp .env.example .env.local
 # Remplir les 3 valeurs dans .env.local
 
 # 4. Lancer
-npm run dev
+pnpm run dev
 ```
 
 **.env.local**
@@ -102,14 +102,14 @@ TMDB_API_KEY=abc123...
 
 ## Scripts disponibles
 
-| Commande          | Description              |
-| ----------------- | ------------------------ |
-| `npm run dev`     | Serveur de développement |
-| `npm run build`   | Build de production      |
-| `npm run preview` | Prévisualiser le build   |
-| `npm run check`   | Vérification TypeScript  |
-| `npm run lint`    | ESLint + Prettier        |
-| `npm run format`  | Formater le code         |
+| Commande           | Description              |
+| ------------------ | ------------------------ |
+| `pnpm run dev`     | Serveur de développement |
+| `pnpm run build`   | Build de production      |
+| `pnpm run preview` | Prévisualiser le build   |
+| `pnpm run check`   | Vérification TypeScript  |
+| `pnpm run lint`    | ESLint + Prettier        |
+| `pnpm run format`  | Formater le code         |
 
 ## CI/CD
 
@@ -124,3 +124,10 @@ Le déploiement est automatique sur **Vercel** à chaque push sur `main`.
 ## Auteur
 
 Abbas Fakih
+
+## Package manager
+
+Use pnpm 10.32.1 (pinned in `package.json`). Install it with
+`npm install --global pnpm@10.32.1`, then run `pnpm install --frozen-lockfile`
+in the package directory. Keep `pnpm-lock.yaml` in version control and review
+new dependency build-script requests before changing `pnpm-workspace.yaml`.
